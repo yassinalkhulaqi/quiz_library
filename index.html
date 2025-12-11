@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مكتبتي الجامعية | My University Library</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Poppins:wght@400;600;700&display=swap');
+      body {
+        font-family: 'Poppins', 'Cairo', sans-serif;
+      }
+      /* Custom styles for range slider thumb */
+      .range-thumb::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background: #a855f7; /* purple-500 */
+        cursor: pointer;
+        border-radius: 50%;
+        margin-top: -6px; /* center thumb on track */
+      }
+
+      .range-thumb::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background: #a855f7; /* purple-500 */
+        cursor: pointer;
+        border-radius: 50%;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^6.25.1",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.23.0",
+    "pdfjs-dist": "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

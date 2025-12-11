@@ -1,0 +1,5 @@
+{
+  "name": "مكتبتي الجامعية لإنشاء الاختبارات | My University Library for Quiz Generation",
+  "description": "تطبيق ويب متقدم يستخدم Gemini AI لإنشاء اختبارات ثنائية اللغة (إنجليزية/عربية) تلقائيًا من أي ملف نصي. An advanced web application that uses Gemini AI to automatically generate bilingual (English/Arabic) quizzes from any uploaded text file.",
+  "requestFramePermissions": []
+}
