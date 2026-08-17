@@ -1,57 +1,75 @@
-import React from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import React, { Suspense, lazy } from 'react';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
-import ToolSelector from './components/ToolSelector';
-import QuizGenerator from './components/QuizGenerator';
-import Translator from './components/Translator';
-import Summarizer from './components/Summarizer';
-import MindMapGenerator from './components/MindMapGenerator';
-import StartQuizScreen from './components/StartQuizScreen';
-import QuizScreen from './components/QuizScreen';
-import ResultsScreen from './components/ResultsScreen';
-import FlashcardsGenerator from './components/FlashcardsGenerator';
-import FlashcardViewer from './components/FlashcardViewer';
-import Chatbot from './components/Chatbot';
+import { AppShell } from './components/layout/AppShell';
+import { Spinner } from './components/ui';
+import { LandingPage } from './pages/Landing';
+import { LoginPage } from './pages/Login';
 
-const AppContent: React.FC = () => {
-    return (
-        <>
-            <div className="relative z-10 w-full flex flex-col flex-grow items-center justify-center py-8">
-                <Routes>
-                    <Route path="/" element={<ToolSelector />} />
-                    <Route path="/quiz" element={<QuizGenerator />} />
-                    <Route path="/quiz/start" element={<StartQuizScreen />} />
-                    <Route path="/quiz/take" element={<QuizScreen />} />
-                    <Route path="/results/current" element={<ResultsScreen />} />
-                    <Route path="/results/history/:id" element={<ResultsScreen />} />
-                    <Route path="/flashcards" element={<FlashcardsGenerator />} />
-                    <Route path="/flashcards/view" element={<FlashcardViewer />} />
-                    <Route path="/translate" element={<Translator />} />
-                    <Route path="/summarize" element={<Summarizer />} />
-                    <Route path="/mindmap" element={<MindMapGenerator />} />
-                    <Route path="/chat" element={<Chatbot />} />
-                </Routes>
-            </div>
-            <footer className="relative z-10 w-full text-center text-xs text-slate-500 font-['Cairo'] py-2 shrink-0">
-                <p>تصميم وتطوير: م. ياسين الخلاقي</p>
-                <p>للتواصل: +967 780910496</p>
-            </footer>
-        </>
-    );
-};
+// Lazy-loaded feature routes keep the initial bundle small.
+const DashboardPage = lazy(() => import('./features/dashboard/Dashboard').then((m) => ({ default: m.DashboardPage })));
+const QuestionBankPage = lazy(() => import('./features/questions/QuestionBank').then((m) => ({ default: m.QuestionBankPage })));
+const AIStudioPage = lazy(() => import('./features/ai/AIStudio').then((m) => ({ default: m.AIStudioPage })));
+const AssessmentsPage = lazy(() => import('./features/assessments/AssessmentsPage').then((m) => ({ default: m.AssessmentsPage })));
+const QuizBuilderPage = lazy(() => import('./features/assessments/QuizBuilder').then((m) => ({ default: m.QuizBuilderPage })));
+const TakeAssessmentPage = lazy(() => import('./features/exam/TakeAssessment').then((m) => ({ default: m.TakeAssessmentPage })));
+const ResultsPage = lazy(() => import('./features/results/Results').then((m) => ({ default: m.ResultsPage })));
+const AnalyticsPage = lazy(() => import('./features/analytics/Analytics').then((m) => ({ default: m.AnalyticsPage })));
+const SubjectsPage = lazy(() => import('./features/subjects/Subjects').then((m) => ({ default: m.SubjectsPage })));
+const SubjectDetailPage = lazy(() => import('./features/subjects/Subjects').then((m) => ({ default: m.SubjectDetailPage })));
+const CollectionsPage = lazy(() => import('./features/collections/Collections').then((m) => ({ default: m.CollectionsPage })));
+const StudentsPage = lazy(() => import('./features/students/Students').then((m) => ({ default: m.StudentsPage })));
+const TemplatesPage = lazy(() => import('./features/templates/Templates').then((m) => ({ default: m.TemplatesPage })));
+const ActivityPage = lazy(() => import('./features/activity/Activity').then((m) => ({ default: m.ActivityPage })));
+const SettingsPage = lazy(() => import('./features/settings/Settings').then((m) => ({ default: m.SettingsPage })));
+const ImportPage = lazy(() => import('./features/import/ImportPage').then((m) => ({ default: m.ImportPage })));
+
+function PageFallback() {
+  return (
+    <div className="flex items-center justify-center py-24 text-brand-500">
+      <Spinner size={28} />
+    </div>
+  );
+}
 
 const App: React.FC = () => {
   return (
     <AppProvider>
-        <main className="min-h-screen bg-slate-900 text-white flex flex-col items-center p-4 selection:bg-purple-500/30">
-            <div className="absolute inset-0 z-0 opacity-20">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_500px_at_50%_200px,#3b82f6,transparent)]"></div>
-                <div className="absolute bottom-0 right-0 h-96 w-96 bg-[radial-gradient(circle_500px_at_50%_50%,#8b5cf6,transparent)]"></div>
-            </div>
-            <HashRouter>
-                <AppContent />
-            </HashRouter>
-        </main>
+      <HashRouter>
+        <Suspense fallback={<PageFallback />}>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+
+            <Route element={<AppShell />}>
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/questions" element={<QuestionBankPage />} />
+              <Route path="/questions/import" element={<ImportPage />} />
+              <Route path="/ai-studio" element={<AIStudioPage />} />
+              <Route path="/quizzes" element={<AssessmentsPage kind="quiz" />} />
+              <Route path="/quizzes/new" element={<QuizBuilderPage kind="quiz" />} />
+              <Route path="/quizzes/:id" element={<QuizBuilderPage kind="quiz" />} />
+              <Route path="/quizzes/:id/edit" element={<QuizBuilderPage kind="quiz" />} />
+              <Route path="/exams" element={<AssessmentsPage kind="exam" />} />
+              <Route path="/exams/new" element={<QuizBuilderPage kind="exam" />} />
+              <Route path="/exams/:id" element={<QuizBuilderPage kind="exam" />} />
+              <Route path="/exams/:id/edit" element={<QuizBuilderPage kind="exam" />} />
+              <Route path="/take/:id" element={<TakeAssessmentPage />} />
+              <Route path="/results/:id" element={<ResultsPage />} />
+              <Route path="/analytics" element={<AnalyticsPage />} />
+              <Route path="/subjects" element={<SubjectsPage />} />
+              <Route path="/subjects/:subjectId" element={<SubjectDetailPage />} />
+              <Route path="/collections" element={<CollectionsPage />} />
+              <Route path="/students" element={<StudentsPage />} />
+              <Route path="/templates" element={<TemplatesPage />} />
+              <Route path="/activity" element={<ActivityPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+            </Route>
+
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
+      </HashRouter>
     </AppProvider>
   );
 };

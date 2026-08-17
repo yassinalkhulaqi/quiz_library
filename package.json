@@ -1,23 +1,37 @@
 {
-  "name": "مكتبتي-الجامعية-لإنشاء-الاختبارات-|-my-university-library-for-quiz-generation",
+  "name": "quizmind",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "QuizMind — AI-Powered Assessment Platform. Create, manage, practice, analyze, and improve quizzes and exams with AI.",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .ts,.tsx",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
+    "@google/genai": "^1.23.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-router-dom": "^6.25.1",
-    "@google/genai": "^1.23.0"
+    "react-router-dom": "^6.25.1"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^22.14.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.0.0",
+    "eslint": "^9.0.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^15.0.0",
+    "tailwindcss": "^4.3.3",
     "typescript": "~5.8.2",
-    "vite": "^6.2.0"
+    "typescript-eslint": "^8.0.0",
+    "vite": "^6.2.0",
+    "vitest": "^3.0.0"
   }
 }
